@@ -1,0 +1,73 @@
+This is an experiment in the use of the adapter pattern
+
+  <aside> It started off as an experiment in passing JSON terms back and
+          forth between a server and the browser - for this I used misultin
+          but yesterdays announcement that misultin would cease to be supported
+          promoted this work - then I threw in ehe which I've been toying with
+          for a while ...
+  </aside>
+
+I have made simple adapters for misultin/mochiweb and cowboy.
+
+The example assumes that misultin/mochiweb and cowboy have been 
+installed and compiled on your machine.
+
+On my machine I have downloaded the latest zip files from github
+and built the packages
+
+I have added three lines in ${HOME}.erlang so that the erlang loader
+can find these three programs.
+
+  code:add_patha("/Users/joe/nobackup/mochi-mochiweb-af4cb95/ebin").
+  code:add_patha("/Users/joe/nobackup/extend-cowboy-e7b6e2a/ebin").
+  code:add_patha("/Users/joe/nobackup/installed/mochi-mochiweb-b7f3693/ebin").
+
+There are three adapters
+
+   misultin_adapter.erl
+   cowboy_adapter.erl
+   mochiweb_adapter.erl
+
+Using these adapters we can write server.erl in a generic manner.
+
+I have also made a simple scripting language ehe.
+
+About ehe
+=========
+
+   Ehe is *very* simple.
+
+   Files with the .ehe extension are assumed to be html files containing embedded
+   Erlang.
+
+   The syntax <?e ....   ?> assumes the bit inside the delimiters is a sequence
+   or Erlang expressions. The replacement value of the sequence is the
+   *last* value in the sequence. Binndings created in the squence are propagated
+   to the next block of embedded erlang.
+
+   The Global variable 'Req' inside an embedded Erlang expression is the
+   paramterised module which allows the appropriate adapter to be called.
+
+   Thus 'Req:magic()' calls (for example) calls mochiweb_adapter:magic(Req)
+   if we are using the mochiweb adapter.
+
+To play with this
+=================
+
+   1) install mochiweb, misultin and cowboy
+   2) edit your .erlang so that the system can find the mochiweb, misultin and
+      cowboy compiled beam files
+   3) type
+      > make server1
+      > make server2
+      > make server3
+     to test
+   4) Take a look at the (generic) server.erl
+   5) Take a look at json_round_trip.ehe
+
+    Note: this assumes the script openchrome starts a chrome browser
+    you will have to tweak openchrome to start some other browser
+
+
+
+   

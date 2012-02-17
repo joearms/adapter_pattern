@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<script src="./jquery-1.5.min.js"></script>
+<style>
+
+body {
+    margin: 100px;
+}
+</style>
+
+<script type="text/javascript">
+
+$(document).ready(start);
+
+function start(){
+    $("#test").click(test_json);
+};
+
+function test_json(){
+    $.ajax({url:"get_term",
+	    data:{tag1:"this",tag2:10},
+	    dataType:'json',
+	    success:function(x){
+		handle(x);
+		}
+	   });
+};
+
+function handle(x){
+    console.log('got',x);
+    $.ajax({url:'echo',
+	    data:JSON.stringify(x), 
+	    success:function(y){
+		$("#ret").html(y);
+	    }});
+};
+
+</script>
+
+<body>
+
+  <h1> <?e Req:magic() ?> </h1>
+
+  <?e N = 50, " " ?>
+  
+  <h2>Ehe test</h2>  
+
+  <?e F = fun(G,0) -> 1;(G,N) -> N*G(G,N-1) end,
+      Fact = fun(N) -> F(F, N) end,"" ?>
+
+  <p> Factorial <?e integer_to_list(N) ?> = <?e integer_to_list(Fact(N)) ?> </p>
+  
+  <h2>Test the JSON round trip</h2>
+
+  <button id="test">test</button></p>
+
+  <div id="ret"></div>
+
+</body>
+
+
+
+
